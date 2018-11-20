@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs/';
-import { Location } from '@angular/common';
-import { DepartmentModel } from '../../../models/department.model';
-import { DepartmentService } from '../../../services/department.service';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { Subscription } from "rxjs/";
+import { Location } from "@angular/common";
+import { DepartmentModel } from "../../../models/department.model";
+import { DepartmentService } from "../../../services/department.service";
 
 @Component({
-  selector: 'app-edit-department',
-  templateUrl: './edit-department.component.html',
-  styleUrls: ['./edit-department.component.css']
+  selector: "app-edit-department",
+  templateUrl: "./edit-department.component.html",
+  styleUrls: ["./edit-department.component.css"]
 })
-export class EditDepartmentComponent implements OnInit {
+export class EditDepartmentComponent implements OnInit, OnDestroy {
   department: DepartmentModel;
   sub: Subscription;
   departmentForm: FormGroup;
@@ -31,7 +31,7 @@ export class EditDepartmentComponent implements OnInit {
   }
 
   getDepartmentFromRoute(): void {
-    this.id = this._activatedRoute.snapshot.paramMap.get('id');
+    this.id = this._activatedRoute.snapshot.paramMap.get("id");
     this.sub = this._departmentService
       .getDepartment(this.id)
       .subscribe(data => {
@@ -43,10 +43,10 @@ export class EditDepartmentComponent implements OnInit {
   formBuilderInit(): void {
     this.departmentForm = this._fb.group({
       id: [this.id],
-      name: [''],
-      description: [''],
-      head: [''],
-      code: ['']
+      name: [""],
+      description: [""],
+      head: [""],
+      code: [""]
     });
   }
 
