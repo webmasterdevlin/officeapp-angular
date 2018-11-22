@@ -14,7 +14,7 @@ import { UserService } from "./services/user.service";
 import { ShellLayoutComponent } from "./components/shell/shell-layout.component";
 import { HeaderMenuComponent } from "./components/shell/header-menu/header-menu.component";
 import { ShellComponent } from "./components/shell/shell.component";
-import { LogoutComponent } from './components/logout/logout.component';
+import { LogoutComponent } from "./components/logout/logout.component";
 
 @NgModule({
   declarations: [

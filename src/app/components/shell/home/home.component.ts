@@ -1,42 +1,47 @@
-import {Component, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
-import {JwtHelper} from 'angular2-jwt';
-import {Router} from '@angular/router';
-import {DepartmentService} from '../../../services/department.service';
+import { Component, OnInit } from "@angular/core";
+import { DepartmentService } from "../../../services/department.service";
+import { DepartmentModel } from "../../../models/department.model";
+import { catchError } from "rxjs/operators";
+import { throwError } from "rxjs";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
-  departments: any;
+  departments: DepartmentModel[] = [];
 
-  constructor(
-    private _location: Location,
-    private jwtHelper: JwtHelper,
-    private router: Router,
-    private departmentService: DepartmentService,
-  ) {}
+  constructor(private departmentService: DepartmentService) {}
 
   ngOnInit() {
-    this.departmentService.loadDepartments().subscribe(data => this.departments = data);
+    this.departmentService
+      .loadDepartments()
+      .subscribe(data => (this.departments = data));
   }
 
-  alert(args: any) {
-    alert(`I am ${args.name}`);
-  }
+  removeItem(id: string, name: string): void {
+    const confirmed = confirm(`Delete ${name}?`);
 
-  isUserAuthenticated() {
-    const token: string = localStorage.getItem("jwt");
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    } else {
-      return false;
+    if (confirmed) {
+      this.removeFromDatabase(id);
     }
   }
 
-  logOut() {
-    localStorage.removeItem("jwt");
+  private removeFromDatabase(id: string): void {
+    const index = this.departments.findIndex(d => d.id === id);
+    const departmentToRemove = this.departments.find(d => d.id === id);
+
+    this.departments.splice(index, 1);
+
+    this.departmentService
+      .deleteDepartment(id)
+      .pipe(
+        catchError(err => {
+          this.departments.splice(index, 0, departmentToRemove);
+          return throwError(err.message);
+        })
+      )
+      .subscribe();
   }
 }

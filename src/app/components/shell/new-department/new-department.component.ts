@@ -11,9 +11,7 @@ import { DepartmentService } from "../../../services/department.service";
   styleUrls: ["./new-department.component.css"]
 })
 export class NewDepartmentComponent implements OnInit {
-  department: DepartmentModel;
   departmentForm: FormGroup;
-  id: string;
 
   constructor(
     private _location: Location,
