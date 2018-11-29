@@ -8,7 +8,6 @@ import { LoginModel } from "../../models/login.model";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["../../app.component.css"]
 })
 export class LoginComponent implements OnInit {
   invalidLogin: boolean;

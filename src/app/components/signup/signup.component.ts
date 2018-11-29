@@ -7,8 +7,7 @@ import { UserModel } from "../../models/user.model";
 
 @Component({
   selector: "app-signup",
-  templateUrl: "./signup.component.html",
-  styleUrls: ["../../app.component.css"]
+  templateUrl: "./signup.component.html"
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
