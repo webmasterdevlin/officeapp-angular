@@ -20,7 +20,7 @@ export class DepartmentService {
       )
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(new Error(err.message));
+          return throwError(window.alert(`Something happened. Can't process right now. ${err.message}`));
         })
       );
   }
@@ -30,7 +30,7 @@ export class DepartmentService {
       .get<DepartmentModel>(`${Endpoints.departmentUrl}${id}`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(new Error(err.message));
+          return throwError(window.alert(`Something happened. Can't process right now. ${err.message}`));
         })
       );
   }
@@ -40,7 +40,7 @@ export class DepartmentService {
       .post<DepartmentModel>(`${Endpoints.departmentUrl}`, department)
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(new Error(err.message));
+          return throwError(window.alert(`Something happened. Can't process right now. ${err.message}`));
         })
       );
   }
@@ -54,7 +54,7 @@ export class DepartmentService {
       )
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(new Error(err.message));
+          return throwError(window.alert(`Something happened. Can't process right now. ${err.message}`));
         })
       );
   }
@@ -64,7 +64,7 @@ export class DepartmentService {
       .delete<DepartmentModel>(`${Endpoints.departmentUrl}${id}`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(new Error(err.message));
+          return throwError(window.alert(`Something happened. Can't process right now. ${err.message}`));
         })
       );
   }

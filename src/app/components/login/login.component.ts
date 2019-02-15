@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { FormBuilder, FormGroup, NgForm } from "@angular/forms";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { Location } from "@angular/common";
 import { UserService } from "../../services/user.service";
 import { LoginModel } from "../../models/login.model";
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     const loginModel = <LoginModel>this.loginForm.value;
     this.userService.signin(loginModel).subscribe(
       response => {
-        let token = (<any>response).token;
+        const token = (<any>response).token;
 
         console.log("new token: ", JSON.stringify(token));
 

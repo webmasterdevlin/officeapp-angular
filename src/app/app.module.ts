@@ -7,7 +7,7 @@ import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./components/login/login.component";
 import { AuthGuard } from "./auth/auth.guard";
-import { JwtHelper } from "angular2-jwt";
+
 import { HttpInterceptorModule } from "./auth/http-interceptor.module";
 import { SignupComponent } from "./components/signup/signup.component";
 import { UserService } from "./services/user.service";
@@ -52,7 +52,7 @@ import { LogoutComponent } from "./components/logout/logout.component";
       { path: "**", redirectTo: "" }
     ])
   ],
-  providers: [JwtHelper, AuthGuard, UserService],
+  providers: [ AuthGuard, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

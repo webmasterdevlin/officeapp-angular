@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {JwtHelper} from 'angular2-jwt';
 import {Router} from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-header-menu',
@@ -9,17 +9,13 @@ import {Router} from '@angular/router';
 })
 export class HeaderMenuComponent {
 
-  constructor(private jwtHelper: JwtHelper, private router: Router) {
+  constructor(private router: Router) {
   }
 
   isUserAuthenticated() {
     const token: string = localStorage.getItem('jwt');
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    const jwtHelper = new JwtHelperService();
+    return token && !jwtHelper.isTokenExpired(token);
   }
 
   logOut() {

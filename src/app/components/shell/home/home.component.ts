@@ -3,6 +3,7 @@ import { DepartmentService } from "../../../services/department.service";
 import { DepartmentModel } from "../../../models/department.model";
 import { catchError } from "rxjs/operators";
 import { throwError } from "rxjs";
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: "app-home",
@@ -32,15 +33,16 @@ export class HomeComponent implements OnInit {
     const index = this.departments.findIndex(d => d.id === id);
     const departmentToRemove = this.departments.find(d => d.id === id);
 
+    // Optimistic update
     this.departments.splice(index, 1);
 
     this.departmentService
       .deleteDepartment(id)
       .pipe(
-        catchError(err => {
-          this.departments.splice(index, 0, departmentToRemove);
-          return throwError(err.message);
-        })
+        catchError( () =>
+          // Rollback
+          this.departments.splice(index, 0, departmentToRemove)
+        )
       )
       .subscribe();
   }
