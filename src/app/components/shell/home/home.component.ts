@@ -2,8 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { DepartmentService } from "../../../services/department.service";
 import { DepartmentModel } from "../../../models/department.model";
 import { catchError } from "rxjs/operators";
-import { throwError } from "rxjs";
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: "app-home",

@@ -12,7 +12,6 @@ import { DepartmentService } from "../../../services/department.service";
   styleUrls: ["./edit-department.component.css"]
 })
 export class EditDepartmentComponent implements OnInit, OnDestroy {
-  department$: Observable<DepartmentModel>;
   departmentForm: FormGroup;
   id: string;
   sub: Subscription;
@@ -22,9 +21,7 @@ export class EditDepartmentComponent implements OnInit, OnDestroy {
     private _activatedRoute: ActivatedRoute,
     private _departmentService: DepartmentService,
     private _fb: FormBuilder
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.getDepartmentFromRoute();
@@ -47,9 +44,8 @@ export class EditDepartmentComponent implements OnInit, OnDestroy {
     this.id = this._activatedRoute.snapshot.paramMap.get("id");
     this.sub = this._departmentService
       .getDepartment(this.id)
-      .subscribe(data => {
-              this.departmentForm.patchValue(data)
-      });
+      .subscribe(data => this.departmentForm.patchValue(data)
+      );
   }
 
   private updateDepartment() {
