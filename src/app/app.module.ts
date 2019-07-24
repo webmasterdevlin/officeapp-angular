@@ -42,7 +42,7 @@ import { LogoutComponent } from "./components/logout/logout.component";
             path: "",
             component: ShellComponent,
             canActivate: [AuthGuard],
-            loadChildren: "./components/shell/shell.module#ShellModule"
+            loadChildren: () => import("./components/shell/shell.module").then(m => m.ShellModule)
           }
         ]
       },
