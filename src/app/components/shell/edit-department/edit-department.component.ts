@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { Subscription } from "rxjs/";
+import { Observable, Subscription } from 'rxjs/';
 import { Location } from "@angular/common";
 import { DepartmentModel } from "../../../models/department.model";
 import { DepartmentService } from "../../../services/department.service";
@@ -12,10 +12,10 @@ import { DepartmentService } from "../../../services/department.service";
   styleUrls: ["./edit-department.component.css"]
 })
 export class EditDepartmentComponent implements OnInit, OnDestroy {
-  department: DepartmentModel;
-  sub: Subscription;
+  department$: Observable<DepartmentModel>;
   departmentForm: FormGroup;
   id: string;
+  sub: Subscription;
 
   constructor(
     private _location: Location,
@@ -23,35 +23,33 @@ export class EditDepartmentComponent implements OnInit, OnDestroy {
     private _departmentService: DepartmentService,
     private _fb: FormBuilder
   ) {
-    this.getDepartmentFromRoute();
+
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getDepartmentFromRoute();
     this.formBuilderInit();
   }
 
-  getDepartmentFromRoute(): void {
-    this.id = this._activatedRoute.snapshot.paramMap.get("id");
-    this.sub = this._departmentService
-      .getDepartment(this.id)
-      .subscribe(data => {
-        this.department = data;
-        console.log(JSON.stringify(this.department.id));
-      });
-  }
-
-  formBuilderInit(): void {
-    this.departmentForm = this._fb.group({
-      id: [this.id],
-      name: [""],
-      description: [""],
-      head: [""],
-      code: [""]
-    });
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   onSubmit(): void {
     this.updateDepartment();
+  }
+
+  back(): void {
+    this._location.back();
+  }
+
+  private getDepartmentFromRoute(): void {
+    this.id = this._activatedRoute.snapshot.paramMap.get("id");
+    this.sub = this._departmentService
+      .getDepartment(this.id)
+      .subscribe(data => {
+              this.departmentForm.patchValue(data)
+      });
   }
 
   private updateDepartment() {
@@ -60,16 +58,13 @@ export class EditDepartmentComponent implements OnInit, OnDestroy {
     this.back();
   }
 
-  deleteDepartment() {
-    this._departmentService.deleteDepartment(this.department.id).subscribe();
-    this.back();
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
-  back(): void {
-    this._location.back();
+  private formBuilderInit(): void {
+    this.departmentForm = this._fb.group({
+      id: [""],
+      name: [""],
+      description: [""],
+      head: [""],
+      code: [""]
+    });
   }
 }
